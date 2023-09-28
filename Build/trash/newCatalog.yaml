@@ -1,0 +1,23 @@
+#%Catalog Descriptor 1.0
+projects:
+  - main: NodeJsAPI/Customer/Customer.raml
+    documentation: 
+      home: NodeJsAPI/Customer/home.md
+      summary: NodeJsAPI/Customer/summary.md
+    tags:
+      - NodeJS
+      - Flex Proxy
+      - Rate-limiting
+    assetId: getcustomer
+    version: 7.0.0
+    apiVersion: v7
+  - main: NodeJsAPI/Opportunity/opportunity-api-oas.yaml
+    documentation: 
+      home: NodeJsAPI/Customer/home.md
+      summary: NodeJsAPI/Customer/summary.md
+    tags:
+      - NodeJS
+      - Flex Proxy
+      - Rate-limiting
+    assetId: opportunities-api
+    version: 6.0.0

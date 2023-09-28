@@ -1,0 +1,1 @@
+docker build -t myjenkins-blueocean:2.414.2-1 .
