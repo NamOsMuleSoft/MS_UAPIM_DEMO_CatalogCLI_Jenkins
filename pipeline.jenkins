@@ -86,7 +86,6 @@ pipeline {
                 --organization $ANYPOINT_ORG -d newCatalog.yaml 
                 
                
-           
                 # already done anypoint-cli-v4 exchange:asset:modify --tags NEWTAG  718f0e99-9f0c-43f6-9976-6763c79c63f0/getcustomer/1.0.0
          
             '''
