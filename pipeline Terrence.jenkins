@@ -1,0 +1,115 @@
+pipeline {
+  agent any
+  
+  environment {
+        ANYPOINT_ORG = 'c2860ab6-7609-435c-9d60-f68e555cc5b5' //TODO : EDIT ORG JENKINS
+        //CATALOG_DESCRIPTOR = 'catalog.yaml'
+        //ANYPOINT_ENV = 'Sandbox'
+        //ANYPOINT_HOST = 'anypoint.mulesoft.com'
+        // AWS_API_ID = '0yfmyiql34'
+        // API_FILE = "api.json"
+        
+  }
+    
+  stages {
+    stage('Checkout API') {
+      steps {
+        git(branch: 'main', url: 'https://github.com/NamOsMuleSoft/UAPIM-demo')
+        
+      }
+    }
+    stage('Create descriptor') {
+      steps {
+          sh '''
+        echo $PATH
+        export PATH=/usr/local/bin/:$PATH
+        echo $PATH
+        [ -e catalog.yaml ] && rm catalog.yaml
+        api-catalog create-descriptor
+        #cat catalog.yaml
+        pwd
+        id -un
+        '''
+      }
+    }
+    
+    stage('Update with Documentation and Tags') {
+      steps {
+          sh '''
+          [ -e newCatalog.yaml ] && rm newCatalog.yaml
+          touch newCatalog.yaml
+          while IFS= read line
+          do
+            if [ -n "$(echo "$line" | grep 'main')" ]
+            then
+              printf '%s\n' "${line}" >> newCatalog.yaml
+              printf '%s\n' "    documentation: "  >> newCatalog.yaml
+              printf '%s\n' "      home: NodeJsAPI/Customer/home.md"  >> newCatalog.yaml
+              printf '%s\n' "      summary: NodeJsAPI/Customer/Summary.md"  >> newCatalog.yaml
+              printf '%s\n' "    tags:"  >> newCatalog.yaml
+              printf '%s\n' "      - NodeJS"  >> newCatalog.yaml
+              printf '%s\n' "      - Flex Proxy"  >> newCatalog.yaml
+              printf '%s\n' "      - Rate-limiting"  >> newCatalog.yaml
+        
+            else
+              printf '%s\n' "${line}" >> newCatalog.yaml
+            fi
+            
+          done < catalog.yaml
+          
+          cat newCatalog.yaml
+	'''
+          
+      }
+    }
+    
+    
+    stage('Catalog and validate') {
+      steps {
+        
+            sh '''
+            
+                echo $PATH
+                 export PATH=/usr/local/bin/:$PATH
+                 echo $PATH
+                # Publish API
+                
+                echo $ANYPOINT_ORG
+
+                api-catalog conf client_id efcf38e4300441b8ad8ccb7ebb1dec01 
+                api-catalog conf client_secret 05a7874d01Eb4d5381e704C921B3C98B  
+                api-catalog conf env Sandbox
+                api-catalog conf host anypoint.mulesoft.com
+                
+                
+                api-catalog publish-asset \
+                --organization $ANYPOINT_ORG -d newCatalog.yaml 
+                
+               
+                # already done anypoint-cli-v4 exchange:asset:modify --tags NEWTAG  718f0e99-9f0c-43f6-9976-6763c79c63f0/getcustomer/1.0.0
+         
+            '''
+        }
+      
+    }
+    
+    
+        
+    
+    
+    
+    
+  }
+  post {
+    failure('Send email with errors and warnings') {
+            archiveArtifacts artifacts: 'output.txt', onlyIfSuccessful: true
+            
+            emailext attachLog: true, attachmentsPattern: 'output.txt',
+                body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}",
+                recipientProviders: [developers(), requestor()],
+                to: '$DEFAULT_RECIPIENTS',
+                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}"
+        }
+    }
+}
+
