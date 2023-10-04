@@ -10,7 +10,7 @@ jenkins:
       permissions:
         - "Overall/Administer:admin"
         - "Overall/Read:authenticated"
-  remotingSecurity:
+    remotingSecurity:
     enabled: true
 security:
   queueItemAuthenticator:
@@ -20,4 +20,4 @@ security:
 
 unclassified:
   location:
-    url: http://127.0.0.1:8080/
+    url: http://127.0.0.1:8082/
