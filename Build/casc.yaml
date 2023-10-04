@@ -1,0 +1,42 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - string:
+          id: "myblah"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAQgH/IXmJvOwQkGJ/KB6O6XcG7XO93FheSBZPviRzAuUE=}"
+      domain:
+        name: "mydomain"
+
+jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+       - id: max
+         password: mulesoft
+  globalNodeProperties:
+  - envVars:
+      env:
+      - key: "organization"
+        value: "718f0e99-9f0c-43f6-9976-6763c79c63f0"
+      - key: "client_id"
+        value: "268c10e4c2fc44fab9f968b414b28735"
+      - key: "client_secret"
+        value: "axaPass0rd1!"
+      - key: "env"
+        value: "Sandbox"
+      - key: "host"
+        value: "anypoint.mulesoft.com"
+      - key: "giturl"
+        value: "https://github.com/NamOsMuleSoft/UAPIM-demo"
+      - key: "gitbranch"
+        value: "main"
+
+
+  
+          
+                
+jobs:
+  - file: /usr/local/apicatalog.groovy

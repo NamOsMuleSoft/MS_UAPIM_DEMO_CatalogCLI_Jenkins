@@ -3,18 +3,13 @@ pipeline {
   
   environment {
         CATALOG_DESCRIPTOR = 'catalog.yaml'
-        ANYPOINT_ORG = '718f0e99-9f0c-43f6-9976-6763c79c63f0'
-        ANYPOINT_ENV = 'Sandbox'
-        ANYPOINT_HOST = 'anypoint.mulesoft.com'
-        // AWS_API_ID = '0yfmyiql34'
-        // API_FILE = "api.json"
-        // TMP_DIR = 'tmp'
+       
   }
     
   stages {
     stage('Checkout API') {
       steps {
-        git(branch: 'main', url: 'https://github.com/NamOsMuleSoft/UAPIM-demo')
+        git(branch: '$gitbranch', url: '$giturl')
         
       }
     }
@@ -76,14 +71,15 @@ pipeline {
                 
                 echo $ANYPOINT_ORG
 
-                api-catalog conf client_id 268c10e4c2fc44fab9f968b414b28735
-                api-catalog conf client_secret axaPass0rd1!
-                api-catalog conf env Sandbox
-                api-catalog conf host anypoint.mulesoft.com
+                api-catalog conf client_id $client_id
+                api-catalog conf client_secret $client_secret
+                api-catalog conf env $env
+                api-catalog conf host $host
+
                 
                 
                 api-catalog publish-asset \
-                --organization $ANYPOINT_ORG -d newCatalog.yaml 
+                --organization $organization -d newCatalog.yaml 
                 
                
            
