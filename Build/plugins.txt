@@ -19,3 +19,6 @@ timestamper:latest
 workflow-aggregator:latest
 ws-cleanup:latest
 job-dsl:latest
+pipeline-utility-steps:latest
+parameterized-trigger:latest
+envinject:latest

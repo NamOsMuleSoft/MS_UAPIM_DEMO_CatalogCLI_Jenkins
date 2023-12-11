@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'Organization', description: 'Anypoint Org Id for BG + Env', defaultValue:"${organization}")
+        string(name: 'GatewayName', description: 'Gate way name', defaultValue:'NewFlexXx')
+        string(name: 'Port', description: 'Port for Docker container', defaultValue: '8081')
+        string(name: 'CONNECTED_APP_CLIENT_ID', description: 'CONNECTED_APP_CLIENT_ID', defaultValue: "${client_id}")
+        string(name: 'CONNECTED_APP_CLIENT_SECRET', description: 'CONNECTED_APP_CLIENT_SECRET', defaultValue: "${client_secret}")
+        string(name: 'ENV_ID', description: 'Port for Docker container', defaultValue: "${env_id}")
+    }
+    stages {
+        stage('Pull Image') {
+            steps {
+                script {
+                    scriptOutput = sh(returnStdout: true, script: "docker pull mulesoft/flex-gateway")
+                }    
+            }
+        }
+        stage('Register') {
+            steps {
+                script {
+                    // remove the registration.yaml if exists
+                    scriptOutput = sh(returnStdout: true, returnStatus: true, script: 'docker run --entrypoint /bin/sh -u 0 -v /var/jenkins_home/workspace/1_CREATE_FLEX:/registration mulesoft/flex-gateway -c "test -e /registration/registration.yaml && rm /registration/registration.yaml"')
+
+                    //Register to get registration.yaml
+                    scriptOutput = sh(returnStdout: true, script: "docker run --entrypoint flexctl -u \$(id -u) -v /var/jenkins_home/workspace/1_CREATE_FLEX:/registration mulesoft/flex-gateway registration create --organization=${params.Organization} --client-id=${params.CONNECTED_APP_CLIENT_ID} --client-secret=${params.CONNECTED_APP_CLIENT_SECRET} --environment=${params.ENV_ID} --output-directory=/registration --connected=true ${params.GatewayName}")
+
+                }
+                  
+            }
+        }
+        stage('Start') {
+            steps {
+               
+                script {
+                    sh "docker run --rm -v /var/jenkins_home/workspace/1_CREATE_FLEX:/usr/local/share/mulesoft/flex-gateway/conf.d -p ${params.Port}:${params.Port} mulesoft/flex-gateway &"
+                    sh "sleep 10"
+                } 
+            }
+        }
+        
+    }
+}

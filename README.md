@@ -18,3 +18,4 @@ docker push ntonthat388/jenkins:jcasc2
 
 
 
+Hoow to get Env_id : https://help.mulesoft.com/s/article/How-to-get-the-Environment-ID

@@ -4,6 +4,8 @@ USER root
 
 RUN apt-get update && apt-get install -y lsb-release && apt-get install -y npm
 
+RUN apt-get install -y mlocate && apt-get install bash-completion -y
+
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
   https://download.docker.com/linux/debian/gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) \
@@ -29,9 +31,26 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 
 RUN jenkins-plugin-cli --plugins -f /usr/share/jenkins/ref/plugins.txt
 
+RUN curl https://raw.githubusercontent.com/docker/docker-ce/master/components/cli/contrib/completion/bash/docker -o /etc/bash_completion.d/docker.sh
+
 COPY casc.yaml /var/jenkins_home/casc.yaml
+
+#declare pipelines
 COPY apicatalog.groovy /usr/local/apicatalog.groovy
-COPY pipeline.jenkins /var/jenkins_home/pipeline.jenkins
+
+#createFlex
+
+COPY demos/createFlex/pipeline.jenkins /var/jenkins_home/demos/createFlex/pipeline.jenkins
+
+#autoCatalog
+
+COPY demos/autoCatalog/pipeline.jenkins /var/jenkins_home/demos/autoCatalog/pipeline.jenkins
+
+#autoProxy
+
+COPY demos/autoProxy/pipeline.jenkins /var/jenkins_home/demos/autoProxy/pipeline.jenkins
+COPY demos/autoProxy/policies.json /var/jenkins_home/demos/autoProxy/policies.json
+COPY demos/autoProxy/HelloCICD.json /var/jenkins_home/demos/autoProxy/HelloCICD.json
 
 
 
