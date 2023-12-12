@@ -1,0 +1,20 @@
+jenkins:
+  globalNodeProperties:
+  - envVars:
+      env:
+      - key: "organization"
+        value: "11"
+      - key: "client_id"
+        value: "11"
+      - key: "client_secret"
+        value: "11"
+      - key: "env_id"
+        value: "11"
+      - key: "host"
+        value: "anypoint.mulesoft.com"
+      - key: "giturl"
+        value: "https://github.com/NamOsMuleSoft/UAPIM-demo"
+      - key: "gitbranch"
+        value: "main"
+      - key: "flex_id"
+        value: "11"

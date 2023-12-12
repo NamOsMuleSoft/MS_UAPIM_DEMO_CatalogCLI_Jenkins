@@ -41,5 +41,5 @@ jenkins:
           
                 
 jobs:
-  - file: /usr/local/apicatalog.groovy
+  - file: /usr/local/createPipelines.groovy
 

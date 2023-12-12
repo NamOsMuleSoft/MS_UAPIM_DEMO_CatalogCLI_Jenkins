@@ -36,7 +36,7 @@ RUN curl https://raw.githubusercontent.com/docker/docker-ce/master/components/cl
 COPY casc.yaml /var/jenkins_home/casc.yaml
 
 #declare pipelines
-COPY apicatalog.groovy /usr/local/apicatalog.groovy
+COPY createPipelines.groovy /usr/local/createPipelines.groovy
 
 #createFlex
 
