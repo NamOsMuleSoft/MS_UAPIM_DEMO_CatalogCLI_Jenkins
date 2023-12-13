@@ -69,7 +69,7 @@ pipeline {
                  echo $PATH
                 # Publish API
                 
-                echo $ANYPOINT_ORG
+                echo $organization
 
                 api-catalog conf client_id $client_id
                 api-catalog conf client_secret $client_secret

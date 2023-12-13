@@ -5,22 +5,12 @@ pipeline  {
 
 
     environment {
-        
-        //ANYPOINT_ORG = credentials("${env.BRANCH_NAME}-anypoint-organization-name")
-        //ANYPOINT_ENV = credentials("${env.BRANCH_NAME}-anypoint-environment-name")
 
-        //ANYPOINT_CLIENT = credentials("${env.BRANCH_NAME}-anypoint-cicd-service-account")
-        //ANYPOINT_CLIENT_ID = "${ANYPOINT_CLIENT_USR}"
-        //ANYPOINT_CLIENT_SECRET = "${ANYPOINT_CLIENT_PSW}"
-        
-        //ANYPOINT_DEPLOYER = credentials("${env.BRANCH_NAME}-anypoint-api-deployer-account")
+        ANYPOINT_ORG = "${organization}"
 
 
-        ANYPOINT_ORG = "21448f2a-f782-42b5-b7ea-3c78f2cd1c5d"
-
-
-        ANYPOINT_CLIENT_ID = "268c10e4c2fc44fab9f968b414b28735"
-        ANYPOINT_CLIENT_SECRET = "axaPass0rd1!"
+        ANYPOINT_CLIENT_ID = "${client_id}"
+        ANYPOINT_CLIENT_SECRET = "${client_secret}"
 
         ANYPOINT_DEPLOYER_USR = "NamDemo"
         ANYPOINT_DEPLOYER_PSW = "getThatThingDone1!"
@@ -38,17 +28,15 @@ pipeline  {
 
 
 
-        //EKS my ORG
-        FLEX_GATEWAY_TARGET_ID = "8ec2601b-c2d5-4b43-97e5-40b2ebf1dbeb"
+        //Flex my ORG
+        FLEX_GATEWAY_TARGET_ID = "${flex_id}"
 
-        //Docker my ORG
-        //FLEX_GATEWAY_TARGET_ID = "0550b3b0-aaaa-4c76-b7ac-ac69d9bca009"
     }
 
     stages {
         stage('Checkout API') {
             steps {
-                git(branch: "main", url: "https://github.com/NamOsMuleSoft/axa_FlexCli")
+                git(branch: "main", url: '$giturlAutoProxy')
             }
         }
         stage('Load API Specification') {
@@ -80,6 +68,9 @@ pipeline  {
         stage('Check API version') {
             steps {
                 script {
+
+                    echo "${ANYPOINT_ORG}"
+
                     // check if API version is in Exchange
                     status = sh(returnStatus: true, script: "anypoint-cli-v4 exchange:asset:describe ${assetId}/${assetVersion} -o json")
                     echo "Exchange asset describe result status: ${status}"

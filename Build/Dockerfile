@@ -41,6 +41,7 @@ COPY createPipelines.groovy /usr/local/createPipelines.groovy
 #createFlex
 
 COPY demos/createFlex/pipeline.jenkins /var/jenkins_home/demos/createFlex/pipeline.jenkins
+COPY demos/createFlex/pipeline.jenkins /var/jenkins_home/demos/createFlex/job.jenkins
 
 #autoCatalog
 

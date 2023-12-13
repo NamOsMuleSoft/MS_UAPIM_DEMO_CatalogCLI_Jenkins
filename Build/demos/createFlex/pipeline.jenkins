@@ -1,8 +1,9 @@
 pipeline {
     agent any
     parameters {
+        string(name: 'RUN', description: 'HACK FOR FIRST RUN => PASS IT TO TRUE', defaultValue: "true")
         string(name: 'Organization', description: 'Anypoint Org Id for BG + Env', defaultValue:"${organization}")
-        string(name: 'GatewayName', description: 'Gate way name', defaultValue:'NewFlexXx')
+        string(name: 'GatewayName', description: 'Gate way name', defaultValue:'NewFlexXxOS')
         string(name: 'Port', description: 'Port for Docker container', defaultValue: '8081')
         string(name: 'CONNECTED_APP_CLIENT_ID', description: 'CONNECTED_APP_CLIENT_ID', defaultValue: "${client_id}")
         string(name: 'CONNECTED_APP_CLIENT_SECRET', description: 'CONNECTED_APP_CLIENT_SECRET', defaultValue: "${client_secret}")
@@ -10,6 +11,11 @@ pipeline {
     }
     stages {
         stage('Pull Image') {
+            when {
+                expression {
+                    RUN =="true"
+                }
+            }
             steps {
                 script {
                     scriptOutput = sh(returnStdout: true, script: "docker pull mulesoft/flex-gateway")
@@ -17,6 +23,11 @@ pipeline {
             }
         }
         stage('Register') {
+            when {
+                expression {
+                    RUN =="true"
+                }
+            }
             steps {
                 script {
                     // remove the registration.yaml if exists
@@ -30,11 +41,16 @@ pipeline {
             }
         }
         stage('Start') {
+            when {
+                expression {
+                    RUN =="true"
+                }
+            }
             steps {
                
                 script {
-                    sh "docker run --rm -v /var/jenkins_home/workspace/1_CREATE_FLEX:/usr/local/share/mulesoft/flex-gateway/conf.d -p ${params.Port}:${params.Port} mulesoft/flex-gateway &"
-                    sh "sleep 10"
+                    sh "docker run --rm -d -v /var/jenkins_home/workspace/1_CREATE_FLEX:/usr/local/share/mulesoft/flex-gateway/conf.d -p ${params.Port}:${params.Port} mulesoft/flex-gateway"
+                    
                 } 
             }
         }
