@@ -1,5 +1,6 @@
 // createPipelines.groovy
 
+create_pipeline("0_SET_ENV", "/var/jenkins_home/demos/setEnv/pipeline.jenkins")
 create_pipeline("1_CREATE_FLEX", "/var/jenkins_home/demos/createFlex/pipeline.jenkins")
 create_pipeline("2_AUTO_CATALOG_APIs", "/var/jenkins_home/demos/autoCatalog/pipeline.jenkins")
 create_pipeline("3_AUTO_PROXY_API", "/var/jenkins_home/demos/autoProxy/pipeline.jenkins")

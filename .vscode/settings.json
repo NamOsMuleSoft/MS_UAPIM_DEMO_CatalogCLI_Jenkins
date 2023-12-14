@@ -7,5 +7,28 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         ".mule": true
+    },
+    "jenkins-runner.hostConfigs": {
+
+
+        "host-with-password": {
+            "url": "http://localhost:8080",
+            "user": "max",
+            "password": "mulesoft",
+            "useCrumbIssuer": true,
+            "rejectUnauthorizedCert": false
+        }
+    },
+    "jenkins-runner.jobs": {
+        
+        "0_SET_ENV test": {
+            "isDefault": true,
+            "runWith": ["host-with-password"],
+            "name": "0_SET_ENV",
+            "parameters": {
+                "Organization": "Hello World!"
+            }
+        }
+        
     }
 }

@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'Organization', description: 'Anypoint Org Id for BG + Env')
+    }
+    stages {
+        stage('Test') {
+            
+            steps {
+                script {
+                    echo "OKCCCCCC"
+                    echo "OKCCCCCC"
+                }    
+            }
+        }
+    }
+}
