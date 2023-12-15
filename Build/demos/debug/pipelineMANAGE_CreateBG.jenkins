@@ -1,0 +1,87 @@
+pipeline {
+    agent any
+    parameters {
+        string(name: 'BusinessGroupName', description: 'Business Group to create', defaultValue:"")
+    }
+    environment {
+        apiUrl = 'https://anypoint.mulesoft.com'
+        accessToken = ''
+    }
+    stages {
+        stage('Check BusinessGroupName') {
+            when {
+                expression { params.BusinessGroupName == "" }
+            }
+            steps {
+                echo "BusinessGroupName is empty. Stopping the pipeline."
+                error("BusinessGroupName cannot be empty.")
+            }
+        }
+        stage('Authenticate') {
+            steps {
+                script {
+                    def curlCommand = """
+                        curl --silent --location --globoff '${apiUrl}/accounts/login' \
+                        --header 'Content-Type: application/x-www-form-urlencoded' \
+                        --data-urlencode 'username=${user_name}' \
+                        --data-urlencode 'password=${user_password}' 2>/dev/null | jq -r '.access_token'
+                    """
+
+                    accessToken = sh(script: curlCommand, returnStdout: true).trim()
+                    echo "Access Token: ${accessToken}"
+
+                    // You can further use the accessToken variable as needed
+                }
+            }
+        }
+        stage('Create Organization') {
+            steps {
+                script {
+                    def createOrgCommand = """
+                        curl --silent --location --globoff '${apiUrl}/accounts/api/organizations' \
+                        --header 'Content-Type: application/json' \
+                        --header 'Authorization: Bearer ${accessToken}' \
+                        --data '{
+                            "name": "${params.BusinessGroupName}",
+                            "parentOrganizationId": "${organization}",
+                            "ownerId": "${user_id}",
+                            "entitlements": {
+                                "createSubOrgs": true,
+                                "createEnvironments": true,
+                                "globalDeployment": false,
+                                "vCoresProduction": {
+                                    "assigned": 0
+                                },
+                                "vCoresSandbox": {
+                                    "assigned": 0
+                                },
+                                "vCoresDesign": {
+                                    "assigned": 0
+                                },
+                                "staticIps": {
+                                    "assigned": 1
+                                },
+                                "vpcs": {
+                                    "assigned": 0
+                                },
+                                "loadBalancer": {
+                                    "assigned": 0
+                                },
+                                "vpns": {
+                                    "assigned": 0
+                                }
+                            }
+                        }'
+                    """
+
+                    def createOrgResponse = sh(script: createOrgCommand, returnStdout: true).trim()
+                    echo "Create Organization Response: ${createOrgResponse}"
+
+                    // You can further parse and process the response as needed
+                }
+            }
+        }
+        
+        
+    }
+}

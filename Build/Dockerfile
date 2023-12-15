@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y lsb-release && apt-get install -y npm
 
 RUN apt-get install -y mlocate && apt-get install bash-completion -y
 
+RUN apt-get install -y lsof && apt-get install -y net-tools && apt-get install -y jq
+
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
   https://download.docker.com/linux/debian/gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) \
@@ -37,6 +39,12 @@ COPY casc.yaml /var/jenkins_home/casc.yaml
 
 #declare pipelines
 COPY createPipelines.groovy /usr/local/createPipelines.groovy
+
+COPY createTestPipeline.groovy /usr/local/createTestPipeline.groovy
+
+
+#debug
+COPY demos/debug/pipeline.jenkins /var/jenkins_home/demos/debug/pipeline.jenkins
 
 #createFlex
 

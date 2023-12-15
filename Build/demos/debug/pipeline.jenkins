@@ -8,9 +8,7 @@ pipeline {
             
             steps {
                 script {
-                    sh '''
-                        printenv
-                    '''
+                    echo "${env.organization}"
                     
                 }    
             }
@@ -19,13 +17,10 @@ pipeline {
             
             steps {
                 script {
-                    echo "OKCCCCCC"
-                    echo "OKCCCCCC"
                     
-                    sh '''
-                        export organization="change runtime"
-                        printenv
-                    '''
+                    
+                    env.organization = "NES"
+                    echo "${env.organization}"
                     
                 }    
             }

@@ -2,10 +2,11 @@ credentials:
   system:
     domainCredentials:
     - credentials:
-      - string:
-          id: "myblah"
+      - usernamePassword:
+          id: "NamOsMuleSoftGIT"
+          password: "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"
           scope: GLOBAL
-          secret: "{AQAAABAAAAAQgH/IXmJvOwQkGJ/KB6O6XcG7XO93FheSBZPviRzAuUE=}"
+          username: "NamOsMuleSoft"
       domain:
         name: "mydomain"
 
@@ -25,6 +26,12 @@ jenkins:
         value: "268c10e4c2fc44fab9f968b414b28735"
       - key: "client_secret"
         value: "axaPass0rd1!"
+      - key: "user_name"
+        value: "NamDemo"
+      - key: "user_password"
+        value: "getThatThingDone1!"
+      - key: "user_id"
+        value : "7a2d5a2f-ca18-4223-89ba-ff332d866dfd"
       - key: "env_id"
         value: "c4e92287-28a4-4a64-b7e7-812fe6e710cd"
       - key: "host"
@@ -44,4 +51,5 @@ jenkins:
                 
 jobs:
   - file: /usr/local/createPipelines.groovy
+  - file: /usr/local/createTestPipeline.groovy
 
