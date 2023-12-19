@@ -8,6 +8,8 @@ RUN apt-get install -y mlocate && apt-get install bash-completion -y
 
 RUN apt-get install -y lsof && apt-get install -y net-tools && apt-get install -y jq
 
+RUN apt-get install openssl -y
+
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
   https://download.docker.com/linux/debian/gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) \

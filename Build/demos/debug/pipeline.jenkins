@@ -3,13 +3,28 @@ pipeline {
     parameters {
         string(name: 'Organization', description: 'Anypoint Org Id for BG + Env')
     }
+    environment {
+        ANYPOINT_USERNAME = "${user_name}"
+        ANYPOINT_PASSWORD = "${user_password}"
+        //ANYPOINT_CLIENT_ID
+        //ANYPOINT_CLIENT_SECRET
+        ANYPOINT_ORG = "${organization}"
+        //ANYPOINT_ENV
+        test="er"
+    }
     stages {
         stage('PrintEnv') {
             
             steps {
                 script {
-                    echo "${env.organization}"
-                    
+
+                    echo " ++++++++++++++++ ${env.ANYPOINT_USERNAME}"
+                    echo "OK"
+                    def command = """ 
+                                anypoint-cli-v4 account:business-group:list --output json
+                                """
+                    def response = sh(script: command,  returnStdout: true).trim()
+                    echo "+++++++++++++++++ response : ${response} "
                 }    
             }
         }
@@ -19,8 +34,8 @@ pipeline {
                 script {
                     
                     
-                    env.organization = "NES"
-                    echo "${env.organization}"
+                    env.test1 = "NES"
+                    echo " ++++++++++++++++ ${env.test1}"
                     
                 }    
             }
