@@ -46,7 +46,9 @@ jenkins:
         value: "b8d21dde-53c3-4f66-a3be-af0e20809b14"
 
 
-  
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
           
                 
 jobs:
