@@ -50,7 +50,6 @@ security:
   globalJobDslSecurityConfiguration:
     useScriptSecurity: false
           
-                
 jobs:
   - file: /usr/local/createPipelines.groovy
   - file: /usr/local/createTestPipeline.groovy
