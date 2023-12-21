@@ -1,0 +1,57 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - usernamePassword:
+          id: "NamOsMuleSoftGIT"
+          password: "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"
+          scope: GLOBAL
+          username: "NamOsMuleSoft"
+      domain:
+        name: "mydomain"
+
+jenkins:
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+       - id: max
+         password: mulesoft
+  globalNodeProperties:
+  - envVars:
+      env:
+      - key: "organization"
+        value: "<YOURORG>"
+      - key: "client_id"
+        value: "<YOURCLIENTID>"
+      - key: "client_secret"
+        value: "<YOURCLIENTSECRET>"
+      - key: "user_name"
+        value: "<YOURUSER>"
+      - key: "user_password"
+        value: "<YOURUSERPASSWORD>"
+      - key: "user_id"
+        value : "<YOURUSERID>"
+      - key: "env_id"
+        value: "<YOURENVID>"
+      - key: "host"
+        value: "anypoint.mulesoft.com"
+      - key: "giturl"
+        value: "https://github.com/NamOsMuleSoft/UAPIM-demo"
+      - key: "giturlAutoProxy"
+        value: "https://github.com/NamOsMuleSoft/MS_UAPIM_AUTO_CATALOG_API"
+      - key: "gitbranch"
+        value: "main"
+      - key: "flex_id"
+        value: "<YOURFLEXID>"
+
+
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
+          
+                
+jobs:
+  - file: /usr/local/createPipelines.groovy
+  - file: /usr/local/createTestPipeline.groovy
+
