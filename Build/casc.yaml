@@ -4,7 +4,7 @@ credentials:
     - credentials:
       - usernamePassword:
           id: "NamOsMuleSoftGIT"
-          password: "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"
+          password: "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"
           scope: GLOBAL
           username: "NamOsMuleSoft"
       domain:
@@ -40,6 +40,8 @@ jenkins:
         value: "https://github.com/NamOsMuleSoft/UAPIM-demo"
       - key: "giturlAutoProxy"
         value: "https://github.com/NamOsMuleSoft/MS_UAPIM_AUTO_CATALOG_API"
+      - key: "giturl_DeployApp"
+        value: "https://github.com/NamOsMuleSoft/MS_Application_Deploy"
       - key: "gitbranch"
         value: "main"
       - key: "flex_id"

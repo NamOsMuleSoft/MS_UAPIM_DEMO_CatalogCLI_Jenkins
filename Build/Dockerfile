@@ -2,6 +2,8 @@ FROM jenkins/jenkins:latest
 
 USER root
 
+RUN apt-get clean
+
 RUN apt-get update && apt-get install -y lsb-release && apt-get install -y npm
 
 RUN apt-get install -y mlocate && apt-get install bash-completion -y
@@ -66,6 +68,10 @@ COPY demos/autoProxy/pipeline.jenkins /var/jenkins_home/demos/autoProxy/pipeline
 COPY demos/autoProxy/policies.json /var/jenkins_home/demos/autoProxy/policies.json
 COPY demos/autoProxy/HelloCICD.json /var/jenkins_home/demos/autoProxy/HelloCICD.json
 
+#MTLS
+#COPY demos/mtlsProxy/client-cert.sh /var/jenkins_home/demos/mtlsProxy/client-cert.sh
+#COPY demos/mtlsProxy/root-ca.sh /var/jenkins_home/demos/mtlsProxy/root-ca.sh
+#COPY demos/mtlsProxy/server-tls.sh /var/jenkins_home/demos/mtlsProxy/server-tls.sh
 
 
 
